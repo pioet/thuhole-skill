@@ -10,6 +10,8 @@ from urllib.request import Request, urlopen
 
 
 API_URL = "https://api.new-t.dev/_api/v1/search"
+LIST_URL = "https://api.new-t.dev/_api/v1/getlist"
+POST_URL = "https://api.new-t.dev/_api/v1/getone"
 COMMENT_URL = "https://api.new-t.dev/_api/v1/getcomment"
 
 
@@ -25,7 +27,7 @@ class HoleClient:
         self.opener = opener
         self.timeout = timeout
 
-    def _get_json(self, url):
+    def _get_json(self, url, *, data_type=list):
         request = Request(url, headers={
             "User-Token": self.token,
             "Accept": "*/*",
@@ -50,9 +52,24 @@ class HoleClient:
         if not isinstance(payload, dict) or payload.get("code") != 0:
             message = payload.get("msg", payload.get("message", "unknown error")) if isinstance(payload, dict) else "invalid response"
             raise HoleAPIError(f"API error: {message}")
-        if not isinstance(payload.get("data"), list):
-            raise HoleAPIError("API response has no data list")
+        if not isinstance(payload.get("data"), data_type):
+            raise HoleAPIError(f"API response has no data {data_type.__name__}")
         return payload
+
+    def latest_page(self, *, page=1, room_id=1):
+        """Return a page of posts in the site's latest order."""
+        if page < 1 or room_id < 1:
+            raise ValueError("page and room_id must be positive")
+        params = urlencode({"p": page, "order_mode": 0, "room_id": room_id})
+        return self._get_json(f"{LIST_URL}?{params}")["data"]
+
+    def get_post(self, pid):
+        """Return one complete post."""
+        if pid < 1:
+            raise ValueError("pid must be positive")
+        return self._get_json(
+            f"{POST_URL}?{urlencode({'pid': pid})}", data_type=dict,
+        )["data"]
 
     def search_page(self, query, *, page=1, page_size=50, room_id=1, search_mode=1):
         """Return one raw API page. Search syntax is passed through unchanged."""

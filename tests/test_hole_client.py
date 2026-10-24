@@ -114,7 +114,7 @@ class HoleClientTests(unittest.TestCase):
         })
         output = io.StringIO()
         with redirect_stdout(output):
-            main(["具身", "--all-pages"], token="secret", opener=opener)
+            main(["具身", "--all-pages", "--no-comments"], token="secret", opener=opener)
         self.assertEqual(json.loads(output.getvalue())["url"], "https://hole.thu.monster/?##3")
 
     def test_cli_with_comments_enriches_each_post(self):
@@ -135,7 +135,7 @@ class HoleClientTests(unittest.TestCase):
         })
         output = io.StringIO()
         with redirect_stdout(output):
-            main(["具身", "--all-pages", "--since", "1970-01-02T00:00:00+00:00"],
+            main(["具身", "--all-pages", "--no-comments", "--since", "1970-01-02T00:00:00+00:00"],
                  token="secret", opener=opener)
         self.assertEqual(json.loads(output.getvalue())["pid"], 2)
         self.assertEqual(len(opener.requests), 3)

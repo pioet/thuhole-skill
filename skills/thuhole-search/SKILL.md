@@ -1,11 +1,21 @@
 ---
 name: thuhole-search
-description: Use when searching New T Hole (新T树洞, hole.thu.monster) posts, comments, hashtags, or author titles with the bundled HTTP client.
+description: Use when searching or reading the latest New T Hole (新T树洞, hole.thu.monster) posts and comments with the bundled HTTP clients.
 ---
 
-# Search New T Hole
+# Search and read New T Hole
 
-Use `scripts/hole_client.py` relative to this skill. Supply a `User-Token` through `HOLE_USER_TOKEN`; never put it in the skill, output, or committed files. The API is observed from the website and may change.
+Use `scripts/hole_client.py` to search, or `scripts/latest_blogs.py` to read the latest posts. Supply a `User-Token` through `HOLE_USER_TOKEN`; never put it in the skill, output, or committed files. The API is observed from the website and may change.
+
+## Latest posts workflow
+
+Run `scripts/latest_blogs.py` relative to this skill. It reads the newest posts from `getlist`, retrieves each full post from `getone`, and fetches comments from `getcomment`. It emits one JSON post per line, including `url` and `comments`.
+
+```bash
+python3 skills/thuhole-search/scripts/latest_blogs.py --limit 10
+```
+
+`--page` selects the starting page (default 1), `--limit` caps the number of posts (default 25), and `--no-comments` skips comment requests. The feed can change while paging; for a current snapshot, start at page 1. Cite findings with each post's `url`.
 
 ## Search workflow
 

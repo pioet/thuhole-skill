@@ -6,7 +6,7 @@ from contextlib import redirect_stdout
 from pathlib import Path
 from urllib.parse import parse_qs, urlparse
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills" / "thuhole-search" / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills" / "thuhole-skill" / "scripts"))
 from latest_blogs import main
 
 

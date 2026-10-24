@@ -1,4 +1,4 @@
-"""HTTP client for New T Hole's observed search endpoint."""
+"""HTTP client for New T Hole's observed API endpoints."""
 
 import argparse
 import json

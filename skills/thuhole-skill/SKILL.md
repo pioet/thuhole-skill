@@ -1,5 +1,5 @@
 ---
-name: thuhole-search
+name: thuhole-skill
 description: Use when searching or reading the latest New T Hole (新T树洞, hole.thu.monster) posts and comments with the bundled HTTP clients.
 ---
 
@@ -12,7 +12,7 @@ Use `scripts/hole_client.py` to search, or `scripts/latest_blogs.py` to read the
 Run `scripts/latest_blogs.py` relative to this skill. It reads the newest posts from `getlist`, retrieves each full post from `getone`, and fetches comments from `getcomment`. It emits one JSON post per line, including `url` and `comments`.
 
 ```bash
-python3 skills/thuhole-search/scripts/latest_blogs.py --limit 10
+python3 skills/thuhole-skill/scripts/latest_blogs.py --limit 10
 ```
 
 `--page` selects the starting page (default 1), `--limit` caps the number of posts (default 25), and `--no-comments` skips comment requests. The feed can change while paging; for a current snapshot, start at page 1. Cite findings with each post's `url`.
@@ -25,7 +25,7 @@ python3 skills/thuhole-search/scripts/latest_blogs.py --limit 10
 4. Cite findings with each result's `url`. Distinguish posts and comments from verified facts.
 
 ```bash
-python3 skills/thuhole-search/scripts/hole_client.py '+大模型 +实习' --all-pages --since '2026-10-17T00:00:00+08:00' --with-comments > results.jsonl
+python3 skills/thuhole-skill/scripts/hole_client.py '+大模型 +实习' --all-pages --since '2026-10-17T00:00:00+08:00' --with-comments > results.jsonl
 ```
 
 Set `HOLE_USER_TOKEN` in the environment before running. Each line is a JSON post with its source URL.

@@ -7,7 +7,7 @@ from pathlib import Path
 from urllib.error import HTTPError, URLError
 from urllib.parse import parse_qs, urlparse
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills" / "thuhole-search" / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills" / "thuhole-skill" / "scripts"))
 from hole_client import HoleClient, HoleAPIError, main
 
 

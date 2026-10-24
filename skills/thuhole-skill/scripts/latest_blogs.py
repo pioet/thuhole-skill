@@ -5,13 +5,13 @@ import json
 import os
 from urllib.request import urlopen
 
-from hole_client import HoleAPIError, HoleClient
+from search_blogs import HoleAPIError, HoleClient
 
 
 def main(argv=None, *, token=None, opener=urlopen):
     parser = argparse.ArgumentParser(description="Read latest New T Hole posts; emit JSON Lines")
     parser.add_argument("--page", type=int, default=1, help="Starting page (default: 1)")
-    parser.add_argument("--limit", type=int, default=25, help="Maximum posts (default: 25)")
+    parser.add_argument("--limit", type=int, default=30, help="Maximum posts (default: 30)")
     parser.add_argument("--room-id", type=int, default=1)
     parser.add_argument("--no-comments", action="store_true", help="Skip fetching comments")
     args = parser.parse_args(argv)

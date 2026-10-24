@@ -38,6 +38,24 @@ class FakeOpener:
 
 
 class LatestBlogsTests(unittest.TestCase):
+    def test_defaults_to_thirty_posts_across_pages(self):
+        payloads = {
+            ("getlist", (("order_mode", "0"), ("p", "1"), ("room_id", "1"))):
+                {"code": 0, "data": [{"pid": pid} for pid in range(100, 75, -1)]},
+            ("getlist", (("order_mode", "0"), ("p", "2"), ("room_id", "1"))):
+                {"code": 0, "data": [{"pid": pid} for pid in range(75, 69, -1)]},
+        }
+        for pid in range(70, 101):
+            payloads[("getone", (("pid", str(pid)),))] = {
+                "code": 0, "data": {"pid": pid, "text": "正文"},
+            }
+        output = io.StringIO()
+        with redirect_stdout(output):
+            main(["--no-comments"], token="test", opener=FakeOpener(payloads))
+
+        pids = [json.loads(line)["pid"] for line in output.getvalue().splitlines()]
+        self.assertEqual(pids, list(range(100, 70, -1)))
+
     def test_fetches_post_details_comments_and_source_url(self):
         opener = FakeOpener({
             ("getlist", (("order_mode", "0"), ("p", "1"), ("room_id", "1"))):

@@ -8,7 +8,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import parse_qs, urlparse
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "skills" / "thuhole-skill" / "scripts"))
-from hole_client import HoleClient, HoleAPIError, main
+from search_blogs import HoleClient, HoleAPIError, main
 
 
 class FakeResponse:
